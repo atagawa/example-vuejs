@@ -2,11 +2,42 @@
 <head>
 <meta charset="UTF-8">
 </head>
-<title>はじめてのVue.js</title>
+<title>Vue.Stationary store</title>
 <script src="https://unpkg.com/vue@2.5.17"></script>
 
 <div id="app">
-  <p>{{items[0].name}}</P>
+  <ul>
+    <!-- v-bindは省略可能 -->
+    <li v-for="item in items" :key="item.name">
+      {{ item.name }}の個数: <input type="number" v-model="item.quantity" min=0 />
+    </li>
+  </ul>
+
+  <hr>
+  
+  <div :style="errorMessageStyle">
+    <ul>
+      <li v-for="item in items" :key="item.name">
+        <!-- |で複数個のフォーマットフィルタリングを設定可能 -->
+        {{ item.name }}: {{ item.price }} x {{ item.quantity }} = {{ item.price * item.quantity | numberWithDelimiter }}
+      </li>
+    </ul>
+  
+    <p>小計: {{ totalPrice | numberWithDelimiter }}円</p>
+    <p>合計（税込み）: {{ totalPriceWithTax | numberWithDelimiter }}円</p>
+
+    <!-- v-showはdisplay属性による表示制御 -->
+    <p v-show="!canBuy">
+      {{ 1000 | numberWithDelimiter }}円以上からご購入いただけます。
+    </p>
+    <!-- v-ifはDOMによる表示制御 -->
+    <p v-if="!canBuy">
+      {{ 1000 | numberWithDelimiter }}円以上からご購入いただけます。
+    </p>
+  
+    <!-- v-onは@で記述可能 -->
+    <button :disabled="!canBuy" @click="doBuy">購入</button>
+  </div>
 </div>
 
 <script src="./app.js"></script>

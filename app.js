@@ -37,7 +37,7 @@ var vm = new Vue({
   methods: {
     doBuy: function() {
       alert(this.totalPriceWithTax + '円のお買い上げ')
-      this.items.foreach(function (item) {
+      this.items.forEach(function (item) {
         item.quantity = 0
       })
     }
